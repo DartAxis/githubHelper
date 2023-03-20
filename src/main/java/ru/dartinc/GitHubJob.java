@@ -18,6 +18,7 @@ public class GitHubJob {
 
     public GitHubJob() {
         try {
+            System.out.println(System.getenv("GITHUB_TOKEN"));
             github = new GitHubBuilder()
                     .withAppInstallationToken(System.getenv("GITHUB_TOKEN"))
                     .build();

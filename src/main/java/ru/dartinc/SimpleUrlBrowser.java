@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class SimpleUrlBrowser {
 
-    private static final String[] browsers = {"chromium","yandex-browser","google-chrome", "firefox", "mozilla", "epiphany",
+    private static final String[] browsers = {"chromium-browser","yandex-browser","google-chrome", "firefox", "mozilla", "epiphany",
             "konqueror", "netscape", "opera", "links",   "brave-browser"};
 
     public void browse(String url) {

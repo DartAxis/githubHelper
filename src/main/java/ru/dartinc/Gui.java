@@ -1,9 +1,7 @@
 package ru.dartinc;
 
 import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 
 public class Gui {
@@ -35,13 +33,13 @@ public class Gui {
         popupMenu.addSeparator();
 
         MenuItem notificationMI = new MenuItem("Notifications");
-        accountMI.addActionListener(e -> openInBrowser("https://github.com/notifications"));
+        notificationMI.addActionListener(e -> openInBrowser("https://github.com/notifications"));
         popupMenu.add(notificationMI);
         popupMenu.addSeparator();
 
         Menu repositoriesMI = new Menu("Repositories");
 
-        repos
+        repos.stream().sorted(Comparator.comparing(RepositoryDescription::getName))
                 .forEach(repo -> {
                     String name = repo.getPrs().size() > 0 ?
                             String.format("(%2d)%s", repo.getPrs().size(), repo.getName()) : repo.getName();
@@ -67,6 +65,12 @@ public class Gui {
                     repositoriesMI.add(repoSM);
                 });
         popupMenu.add(repositoriesMI);
+        popupMenu.addSeparator();
+        MenuItem exitMI = new MenuItem("EXIT");
+        exitMI.addActionListener( e ->{
+            System.exit(0);
+        });
+        popupMenu.add(exitMI);
         trayIcon.setPopupMenu(popupMenu);
     }
 
