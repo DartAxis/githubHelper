@@ -9,8 +9,8 @@ public class Gui {
     private final TrayIcon trayIcon;
     private final SimpleUrlBrowser browser=new SimpleUrlBrowser();
 
-    public Gui() {
-        try {
+    public Gui() throws AWTException {
+
             SystemTray tray = SystemTray.getSystemTray();
             Image image = Toolkit.getDefaultToolkit()
                     .createImage(getClass().getResource("/github-logo.png"));
@@ -19,9 +19,7 @@ public class Gui {
             trayIcon.setToolTip("GitHub helper");
 
             tray.add(trayIcon);
-        } catch (AWTException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 
     public void setMenu(String login, List<RepositoryDescription> repos) {
@@ -49,7 +47,7 @@ public class Gui {
                         openInBrowser(repo.getRepository().getHtmlUrl().toString());
                     });
 
-                    if(repo.getPrs().size()>0){
+                    if(!repo.getPrs().isEmpty()){
                         repoSM.addSeparator();
                     }
 
@@ -75,14 +73,10 @@ public class Gui {
     }
 
     public void openInBrowser(String url) {
-//            Desktop.getDesktop().browse(new URL(url).toURI());
         browser.browse(url);
     }
 
     public void showNotification(String title, String text) {
         trayIcon.displayMessage(title, text, TrayIcon.MessageType.INFO);
-        System.out.println(title);
-        System.out.println(text);
-
     }
 }

@@ -6,9 +6,10 @@ import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
 
 
+import java.awt.*;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class GitHubJob {
@@ -16,9 +17,8 @@ public class GitHubJob {
     private final Gui gui = new Gui();
     private final Set<Long> allPrsIds = new HashSet<>();
 
-    public GitHubJob() {
+    public GitHubJob() throws AWTException {
         try {
-            System.out.println(System.getenv("GITHUB_TOKEN"));
             github = new GitHubBuilder()
                     .withAppInstallationToken(System.getenv("GITHUB_TOKEN"))
                     .build();
@@ -29,13 +29,9 @@ public class GitHubJob {
     }
 
     private void init() throws IOException {
-        System.out.println(System.getProperty("os.name"));
-        long start = System.currentTimeMillis();
-        System.out.println(LocalDateTime.now() + ": получаем майселф");
+        System.out.println("Получаем майселф");
         GHMyself myself = github.getMyself();
-        long stop = System.currentTimeMillis();
-        System.out.println(LocalDateTime.now() + "Получили майселф");
-        System.out.println("Затрачено: "+ (stop-start)/1000 + " секунд");
+        System.out.println("Получили майселф");
         String login = myself.getLogin();
         System.out.println(login);
         new Timer().schedule(new TimerTask() {
@@ -75,6 +71,6 @@ public class GitHubJob {
                     throw new RuntimeException(e);
                 }
             }
-        }, 1000, 10000);
+        }, 1000, 300000);
     }
 }
